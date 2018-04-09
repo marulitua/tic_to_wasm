@@ -8,7 +8,11 @@ var elem = document.getElementById('myCanvas'),
   elemLeft = elem.offsetLeft,
   elemTop = elem.offsetTop,
   context = elem.getContext('2d'),
-  elements = [];
+  elements = [],
+  size = 20
+
+// Set board size
+elem.width = elem.height = size * 80 + size *  5 + 2 * 20
 
 // Add event listener for `click` events.
 elem.addEventListener('click', function (event) {
@@ -30,11 +34,14 @@ var x = 20, y = 20, maxWidth = elem.getAttribute('width'),
   text = "",
   leftx = 0;
 
-var long = 3;
-for (var i = 1; i <= long; i++) {
+for (var i = 1; i <= size; i++) {
   y = 20;
-  for (var j = 1; j <= long; j++) {
-    text = i + ',' + j
+  for (var j = 1; j <= size; j++) {
+    if (i === j) {
+      text = 'X'
+    } else {
+      text = 'O'
+    }
 
     elements.push({
       colour: '#05EFFF',
@@ -61,10 +68,10 @@ for (var i = 1; i <= long; i++) {
 
 // Render elements.
 elements.forEach(function (element) {
-  context.font = "14pt Arial";
+  context.font = "45pt Arial";
   context.strokeStyle = "#000";
   context.rect(element.left, element.top, element.width, element.height);
-  context.fillText(element.text, element.left + element.width / 2.5, element.top+ element.height / 1.7);
+  context.fillText(element.text, element.left + element.width / 4, element.top+ element.height / 1.3);
   context.lineWidth = 1;
   context.stroke()
 });
