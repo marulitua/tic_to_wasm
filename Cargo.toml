@@ -1,0 +1,6 @@
+[package]
+name = "tic_to_wasm"
+version = "0.1.0"
+authors = ["devtrium <devtrium325@gmail.com>"]
+
+[dependencies]
