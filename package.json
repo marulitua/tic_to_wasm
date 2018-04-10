@@ -5,9 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "wasm": "cargo build --release --target wasm32-unknown-unknown && wasm-gc target/wasm32-unknown-unknown/release/tic_to_wasm.wasm dist/program.wasm"
+    "dev": "parcel index.html",
+    "pro": "parcel build"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "parcel-bundler": "^1.7.0"
+  }
 }
