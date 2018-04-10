@@ -1,9 +1,10 @@
-//use models::{Board, Tile};
+use models::{Board, Tile};
 pub mod models;
 
 #[no_mangle]
 pub fn add(a: i32, b: i32) -> i32 {
-    return 2020
+    let w = Board::new(10, 1000, 1000);
+    w.get_size() as i32
 }
 
 #[cfg(test)]
@@ -12,14 +13,10 @@ mod tests {
 
     #[test]
     fn it_works() {
-        assert_eq!(2 + 2, 4);
-        let t = Tile::new();
-        assert_eq!(t.get_size(), 10);
-
-        let w = Board::new(3);
+        let w = Board::new(3, 1000, 1000);
         assert_eq!(w.get_size(), 9);
 
-        let w = Board::new(10);
+        let w = Board::new(10, 1000, 1000);
         assert_eq!(w.get_size(), 100);
     }
 }

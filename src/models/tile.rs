@@ -1,20 +1,24 @@
 #[derive(Debug)]
 pub struct Tile {
-    width: u32,
-    height: u32,
+    colour: String,
+    pub width: u32,
+    pub height: u32,
     top: u32,
     left: u32,
-    text: String
+    text: String,
+    textColour: String
 }
 
 impl Tile {
-    pub fn new() -> Tile {
+    pub fn new(colour: String, width: u32, height: u32, top: u32, left: u32, text: String, textColour: String) -> Tile {
         Tile {
-            width: 10,
-            height: 10,
-            top: 5,
-            left: 5,
-            text: String::from("Yesss")
+            colour,
+            width,
+            height,
+            top,
+            left,
+            text,
+            textColour,
         }
     }
 
