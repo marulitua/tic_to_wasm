@@ -1,5 +1,6 @@
 use models::tile::Tile;
 
+#[derive(Debug)]
 pub struct Board {
     tiles: Vec<Tile>,
     size: u32,
@@ -17,7 +18,7 @@ impl Board {
         let width = 80;
         let height = 80;
 
-        for _i in 1..size+1 {
+        for i in 1..size+1 {
             y = 20;
             for j in 1..size+1 {
                 list_tiles.push(Tile::new(
@@ -26,7 +27,7 @@ impl Board {
                           height,
                           y,
                           x,
-                          String::from(""),
+                          format!("{},{}", i.to_string(), j.to_string()),
                           String::from("#fff")
                         ));
 
