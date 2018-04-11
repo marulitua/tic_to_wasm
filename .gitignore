@@ -2,3 +2,6 @@
 **/*.rs.bk
 .cache/
 dist/
+/node_modules
+package-lock.json
+tic_to_wasm*

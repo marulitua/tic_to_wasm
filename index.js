@@ -1,5 +1,6 @@
-import {add} from './src/lib.rs';
-console.log("hello world: " + add(2, 3));
+const rust = import("./tic_to_wasm");
+
+rust.then(m => m.greet("World!"));
 
 // create grid and event handler based on collision detection
 // inspired by http://jsfiddle.net/BmeKr/1800/
@@ -75,4 +76,3 @@ elements.forEach(function (element) {
   context.lineWidth = 1;
   context.stroke()
 });
-console.log(elements)
