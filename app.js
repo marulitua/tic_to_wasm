@@ -1,4 +1,6 @@
-import { greet, render, Tile, Bar, MyResult, Foo } from "./tic_to_wasm";
+import { next_move } from "./tic_to_wasm";
+
+// DOM manipulation will be handle by js
 
 // create grid and event handler based on collision detection
 // inspired by http://jsfiddle.net/BmeKr/1800/
@@ -75,22 +77,5 @@ function render_tile(element) {
 }
 
 // Render elements.
-//elements.forEach(render_tile);
-greet("World!")
-console.log(render())
-let bar = Bar.from_str()
-console.log(Bar, bar)
-//let result = MyResult.new()
-//console.log(result)
-// Note the `new Foo()` syntax cannot be used, static function
-// constructors must be used instead. Additionally objects allocated
-// corresponding to Rust structs will need to be deallocated on the
-// Rust side of things with an explicit call to `free`.
-let foo = Foo.new();
-console.log(foo)
-foo.add(10)
-console.log(foo)
-foo.show()
-
-foo.free();
-console.log(foo)
+elements.forEach(render_tile);
+next_move("0,0,0,0,0,0,0,0")
