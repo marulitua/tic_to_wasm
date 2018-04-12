@@ -2,7 +2,7 @@ use models::tile::Tile;
 
 #[derive(Debug)]
 pub struct Board {
-    tiles: Vec<Tile>,
+    pub tiles: Vec<Tile>,
     size: u32,
     max_height: u32,
     max_width: u32
