@@ -8,32 +8,26 @@ To generate WASM code we use [rust](https://www.rust-lang.org/en-US/)
 
 Please use [rustup](https://www.rustup.rs/) to install rust development
 
-We also need to use rust nightly
+Use rust nightly
 
 ```
 rustup override set nightly
 ```
 
-We need to add wasm as compile target
+Add wasm as compile target
 
 ```
 rustup target add wasm32-unknown-unknown --toolchain nightly
 ```
 
-## Set up npm
+Install [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen) to bind wasm <-> js
 
 ```
-npm i
+cargo install wasm-bindgen-cli
 ```
 
-for development
+and then
 
 ```
-npm run dev
-```
-
-for production
-
-```
-npm run pro
+./build.sh
 ```
