@@ -30,12 +30,21 @@ fn guess(board: &str) -> u32 {
    4
 }
 
+fn convert_board(string_board: &str) -> Vec<u32> {
+   let numbers: Vec<u32> =
+      string_board.split(',')
+      .map(|s| s.parse().unwrap())
+      .collect();
+
+   numbers
+}
+
 #[cfg(test)]
 mod tests {
-   use super::guess;
+   use super::{guess, convert_board};
 
    #[test]
-   fn it_works() {
+   fn it_can_guess() {
       // 1 0 0
       // 0 0 0
       // 0 0 0
@@ -60,5 +69,15 @@ mod tests {
       // 1 1-1
       //-1 0 0
       assert_eq!(guess("1,-1,0,1,1,-1,-1,0,0"), 9);
+   }
+
+   #[test]
+   fn it_can_convert_board() {
+       let result = convert_board("0,0,0,1,0,1");
+
+       for x in &result {
+           println!("{}", x);
+       }
+       assert_eq!(result, [0, 0, 0, 1, 0, 1]);
    }
 }
