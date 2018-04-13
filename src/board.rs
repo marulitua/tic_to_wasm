@@ -1,19 +1,23 @@
-use log;
-
 #[derive(Debug)]
 pub struct Board {
    pub tiles: Vec<u32>
 }
 
 impl Board {
-   pub fn log(&self) {
-      let chunks = self.tiles.chunks(self.get_size() as usize);
+   pub fn log(&self) -> String {
+      let size = self.get_size();
+      let chunks = self.tiles.chunks(size as usize);
       let mut logs = String::from("");
+      let new_line = "\n".to_string();
       for chunk in chunks {
-         //logs = format!("{}\n{}", logs, String::from(chunk));
+         for t in chunk.iter() {
+            let s_t = format!("{} ", *t);
+            logs.push_str(&s_t);
+         }
+         logs.push_str(&new_line);
       }
 
-      log(&logs);
+      logs
    }
 
    pub fn get_size(&self) -> u32 {

@@ -20,12 +20,13 @@ extern {
    fn log_many(a: &str, b: &str);
 }
 
-//wasm only do calculate the next move
+//wasm calculate the next move
 //only accept string of board
 #[wasm_bindgen]
 pub fn next_move(board: &str) -> u32 {
    log(&format!("Hello, {}!", board));
-   guess(board)
+   guess(board);
+   56
 }
 
 fn guess(board: &str) -> u32 {
@@ -34,8 +35,8 @@ fn guess(board: &str) -> u32 {
    let board = Board {
       tiles: tiles
    };
-   board.log();
-   log(&format!("peek a board => {:?}", board));
+   log(&board.log());
+   log(&format!("peek the board => {:?}", board));
    board.get_size()
 }
 
