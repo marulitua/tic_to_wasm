@@ -1,8 +1,10 @@
 #![feature(proc_macro, wasm_custom_section, wasm_import_module)]
 
 extern crate wasm_bindgen;
+mod board;
 
 use wasm_bindgen::prelude::*;
+use board::Board;
 
 #[wasm_bindgen]
 extern {
@@ -23,11 +25,18 @@ extern {
 #[wasm_bindgen]
 pub fn next_move(board: &str) -> u32 {
    log(&format!("Hello, {}!", board));
-   4
+   guess(board)
 }
 
 fn guess(board: &str) -> u32 {
-   4
+   let tiles = convert_board(board);
+
+   let board = Board {
+      tiles: tiles
+   };
+   board.log();
+   log(&format!("peek a board => {:?}", board));
+   board.get_size()
 }
 
 fn convert_board(string_board: &str) -> Vec<u32> {
@@ -37,7 +46,7 @@ fn convert_board(string_board: &str) -> Vec<u32> {
       .collect();
 
    numbers
-}
+   }
 
 #[cfg(test)]
 mod tests {
@@ -73,11 +82,8 @@ mod tests {
 
    #[test]
    fn it_can_convert_board() {
-       let result = convert_board("0,0,0,1,0,1");
+      let result = convert_board("0,0,0,1,0,1");
 
-       for x in &result {
-           println!("{}", x);
-       }
-       assert_eq!(result, [0, 0, 0, 1, 0, 1]);
+      assert_eq!(result, [0, 0, 0, 1, 0, 1]);
    }
 }

@@ -78,4 +78,4 @@ function render_tile(element) {
 
 // Render elements.
 elements.forEach(render_tile);
-next_move("0,0,0,0,0,0,0,0")
+console.log(next_move("0,0,0,0,0,0,0,0,0"))
