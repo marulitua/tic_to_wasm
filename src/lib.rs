@@ -23,21 +23,24 @@ extern {
 //wasm calculate the next move
 //only accept string of board
 #[wasm_bindgen]
-pub fn next_move(board: &str) -> u32 {
-   log(&format!("Hello, {}!", board));
-   guess(board);
-   56
+pub fn next_move(board: &str) -> String {
+   //log(&format!("Hello, {}!", board));
+   format!("{}", guess(board))
 }
 
-fn guess(board: &str) -> u32 {
+fn guess(board: &str) -> i64 {
    let tiles = convert_board(board);
 
    let board = Board {
-      tiles: tiles
+      tiles: tiles,
+      human: 1,
+      robot: 2,
+      neutral: 0
    };
-   log(&board.log());
-   log(&format!("peek the board => {:?}", board));
-   board.get_size()
+
+   //log(&board.log());
+   //log(&format!("peek the board => {:?}", board));
+   board.guess()
 }
 
 fn convert_board(string_board: &str) -> Vec<u32> {
