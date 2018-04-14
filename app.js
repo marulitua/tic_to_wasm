@@ -10,7 +10,7 @@ var elem = document.getElementById('myCanvas'),
   elemTop = elem.offsetTop,
   context = elem.getContext('2d'),
   elements = [],
-  size = 20
+  size = 3
 
 // Set board size
 elem.width = elem.height = size * 80 + size *  5 + 2 * 20
