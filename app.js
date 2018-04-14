@@ -78,4 +78,5 @@ function render_tile(element) {
 
 // Render elements.
 elements.forEach(render_tile);
-console.log(`next_move => ${next_move("0,1,2,0,1,0,0,0,0")}`);
+console.log(`next_move => ${next_move("1,0,0,0,0,0,0,0,0")}`);
+console.log(`next_move => ${next_move("1,2,0,1,1,0,0,0,0")}`);

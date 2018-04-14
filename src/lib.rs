@@ -28,7 +28,7 @@ pub fn next_move(board: &str) -> String {
    format!("{}", guess(board))
 }
 
-fn guess(board: &str) -> i64 {
+fn guess(board: &str) -> String {
    let tiles = convert_board(board);
 
    let board = Board {
@@ -61,27 +61,27 @@ mod tests {
       // 1 0 0
       // 0 0 0
       // 0 0 0
-      assert_eq!(guess("0,0,0,0,0,0,0,0"), 2);
+      assert_eq!(guess("0,0,0,0,0,0,0,0"), "0");
 
       // 1-1 0
       // 1 0 0
       // 0 0 0
-      assert_eq!(guess("1,-1,0,1,0,0,0,0"), 7);
+      assert_eq!(guess("1,2,0,1,0,0,0,0"), "7");
 
       // 1 0-1
       // 1 1 0
       //-1 0 0
-      assert_eq!(guess("1,0,-1,1,0,-1,0,0"), 6);
+      assert_eq!(guess("1,0,2,1,0,2,0,0"), "6");
 
       // 1 0 0
       // 1 1 0
       //-1 0-1
-      assert_eq!(guess("1,0,0,1,1,0,0,0"), 6);
+      assert_eq!(guess("1,0,0,1,1,0,0,0"), "6");
 
       // 1-1 0
       // 1 1-1
       //-1 0 0
-      assert_eq!(guess("1,-1,0,1,1,-1,-1,0,0"), 9);
+      assert_eq!(guess("1,2,0,1,1,2,2,0,0"), "9");
    }
 
    #[test]

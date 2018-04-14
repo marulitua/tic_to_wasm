@@ -34,14 +34,14 @@ impl Board {
       logs
    }
 
-   pub fn guess(&self) -> i64 {
+   pub fn guess(&self) -> String {
       match self.is_playable() {
          Some(_x) => {
-            self.do_calculation()
+            self.do_calculation().to_string()
          },
          None => {
             //log("no move");
-            return -1
+            return String::from("-1")
          }
       }
    }
@@ -54,14 +54,17 @@ impl Board {
    // - - -
    // - - -
    fn horizontal(&self, row :u32) -> Option<u32> {
-      let max = row + self.get_size();
-      let mut counter = self.get_size();
+      //log(&format!("row {}", row.to_string()));
+      let x = row*self.get_size();
+      let max = x + self.get_size();
+      let mut counter = self.get_size() as u32;
 
-      for i in row..max {
+      for i in x..max {
+         //log(&format!("tiles {}", i));
          let tile_to_check = self.tiles[i as usize];
-
          // this column can't be claim by human
          if tile_to_check == self.robot as u32 {
+            //log(&format!("robot already here"));
             return None;
          }
 
@@ -71,6 +74,7 @@ impl Board {
             counter -= 1;
          }
       }
+      //log(&format!("edge => {}", counter.to_string()));
       Some(counter)
    }
 
@@ -78,12 +82,14 @@ impl Board {
    // ? - -
    // ? - -
    fn vertical(&self, column :u32) -> Option<u32> {
+      //log(&format!("column {}", column.to_string()));
       let max = self.get_size();
       let mut iteration = 0;
       let mut next = column;
       let mut counter = self.get_size();
 
       while next <= self.tiles.len() as u32 - 1 {
+         //log(&format!("tiles {}", next));
          let tile_to_check = self.tiles[next as usize];
 
          // this row can't be claim by human
@@ -98,7 +104,7 @@ impl Board {
          }
 
          iteration += 1;
-         next += iteration * max;
+         next = iteration * max;
       }
 
       Some(counter)
@@ -114,6 +120,7 @@ impl Board {
       let mut next = 0;
 
       while next <= self.tiles.len() as u32 - 1 {
+         //log(&format!("tiles {}", next));
          let tile_to_check = self.tiles[next as usize];
 
          // this row can't be claim by human
@@ -136,6 +143,7 @@ impl Board {
       counter = self.get_size();
       next = max - 1;
       while next <= self.tiles.len() as u32 - 1 {
+         //log(&format!("tiles {}", next));
          let tile_to_check = self.tiles[next as usize];
 
          // this row can't be claim by human
@@ -162,30 +170,40 @@ impl Board {
 
    // check every tile
    // count the least step that human need to take if he claim this tile
-   fn do_calculation(&self) -> i64 {
+   fn do_calculation(&self) -> u32 {
+      let mut minimum_index = self.is_playable().unwrap() as u32;
       let mut minimum_step = self.is_playable().unwrap() as u32;
       for i in 0..self.get_size() {
          //log(&i.to_string());
          for j in 0..self.get_size() {
             //log(&j.to_string());
             //check the number of step that human need to claim this row
-            if let Some(x) = self.horizontal(j % self.get_size() + j) {
-               minimum_step = x;
+            //log(&format!("{},{}", i, j));
+            if let Some(x) = self.horizontal(i) {
+               if x < minimum_step {
+                  minimum_step = x;
+                  minimum_index = i * self.get_size() + j * self.get_size();
+               }
             }
             //check the number of step that human need to claim this column
             if let Some(x) = self.vertical((i as f64 / self.get_size() as f64).ceil() as u32) {
-               minimum_step = x;
+               if x < minimum_step {
+                  minimum_step = x;
+                  minimum_index = i * self.get_size() + j * self.get_size();
+               }
             }
             //if i === j then look for diagonal
             //check the number of step that human need to claim this column
             if i == j {
                if let Some(x) = self.diagonal() {
-                  minimum_step = x;
+                  if x < minimum_step {
+                     minimum_step = x;
+                     minimum_index = i * self.get_size() + j * self.get_size();
+                  }
                }
             }
          }
       }
-
-      minimum_step as i64
+      minimum_index
    }
 }
