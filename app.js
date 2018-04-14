@@ -9,7 +9,7 @@ var elem = document.getElementById('myCanvas'),
   elemTop = elem.offsetTop,
   context = elem.getContext('2d'),
   elements = [],
-  size = 5
+  size = 3
 
 // Set board size
 elem.width = elem.height = size * 80 + size *  5 + 2 * 20
@@ -19,18 +19,22 @@ elem.addEventListener('click', function (event) {
   var x = event.pageX - elemLeft,
     y = event.pageY - elemTop;
 
-  elements.forEach(function (element) {
+  elements.forEach(function (element, index) {
     if (y > element.top && y < element.top + element.height && 
       x > element.left && x < element.left + element.width) {
       if (element.belongsTo === 'neutral') {
         element.belongsTo = 'human'
         element.text = '0'
-
-        let robot = elements[next_move(get_condition(elements))];
+        let before = get_condition(elements);
+        let robot_move = next_move(before)
+        //console.log(`${string_c} => ${robot_move}`)
+        let robot = elements[robot_move]
         robot.text = 'X'
         robot.belongsTo = 'robot'
 
+        let after = get_condition(elements);
         elements.forEach(render_tile);
+        console.log(`${before} => ${index} clicked ${robot_move} => ${after}`)
       }
     }
   });
@@ -45,7 +49,7 @@ var x = 20, y = 20, maxWidth = elem.getAttribute('width'),
   leftx = 0;
 
 for (var i = 1; i <= size; i++) {
-  y = 20;
+  x = 20;
   for (var j = 1; j <= size; j++) {
 
     elements.push({
@@ -54,22 +58,17 @@ for (var i = 1; i <= size; i++) {
       height: height,
       top: y,
       left: x,
-      text: '',
+      text: '',//elements.length,
       textColour: '#fff',
       belongsTo: 'neutral'
     });
 
-    // get the y axis for next content
-    y = y + elements[j-1].height + 5
-    if (y >= maxHeight - elements[j-1].height) {
-      break;
-    }
+    //get the x axis for next content
+    x = x + elements[0].width + 5;
+    //console.log(`x => ${x} maxWidth => ${maxWidth}`);
   }
-  //get the x axis for next content
-  x = x + elements[0].width + 5
-  if (x >= maxWidth - elements[0].width) {
-    break;
-  }
+  // get the y axis for next content
+  y = y + elements[0].height + 5
 }
 
 function render_tile(element) {
