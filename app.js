@@ -11,6 +11,8 @@ var elem = document.getElementById('myCanvas'),
   elements = [],
   size = 3
 
+var available_tiles = Math.pow(size, 2)
+
 // Set board size
 elem.width = elem.height = size * 80 + size *  5 + 2 * 20
 
@@ -25,16 +27,25 @@ elem.addEventListener('click', function (event) {
       if (element.belongsTo === 'neutral') {
         element.belongsTo = 'human'
         element.text = '0'
-        let before = get_condition(elements);
-        let robot_move = next_move(before)
-        //console.log(`${string_c} => ${robot_move}`)
-        let robot = elements[robot_move]
-        robot.text = 'X'
-        robot.belongsTo = 'robot'
+        available_tiles -= 1;
 
-        let after = get_condition(elements);
-        elements.forEach(render_tile);
-        console.log(`${before} => ${index} clicked ${robot_move} => ${after}`)
+        console.log(`available_tiles => ${available_tiles}`)
+        if (available_tiles > 0) {
+          let before = get_condition(elements);
+          let robot_move = next_move(before)
+          //console.log(`${string_c} => ${robot_move}`)
+          let robot = elements[robot_move]
+          if (robot.text === '0') {
+            console.log('error detected')
+          }
+          robot.text = 'X'
+          robot.belongsTo = 'robot'
+
+          let after = get_condition(elements);
+          elements.forEach(render_tile);
+          console.log(`${before} => ${index} clicked ${robot_move} => ${after}`)
+          available_tiles -= 1;
+        }
       }
     }
   });
