@@ -31,16 +31,19 @@ pub fn next_move(board: &str) -> String {
 fn guess(board: &str) -> String {
    let tiles = convert_board(board);
 
-   let board = Board {
+   let mut board = Board {
       tiles: tiles,
       human: 1,
       robot: 2,
-      neutral: 0
+      neutral: 0,
+      minimum_step: 0
    };
 
-   //log(&board.log());
-   //log(&format!("peek the board => {:?}", board));
-   board.guess()
+   log(&board.log());
+   let result = board.guess();
+   log(&format!("peek the board => {:?}", board));
+
+   result
 }
 
 fn convert_board(string_board: &str) -> Vec<u32> {

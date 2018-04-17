@@ -5,7 +5,8 @@ pub struct Board {
    pub tiles: Vec<u32>,
    pub human: u8,
    pub robot: u8,
-   pub neutral: u8
+   pub neutral: u8,
+   pub minimum_step: u32
 }
 
 impl Board {
@@ -14,7 +15,8 @@ impl Board {
          tiles: tiles,
          human: 1,
          robot: 2,
-         neutral: 0
+         neutral: 0,
+         minimum_step: 0
       }
    }
 
@@ -34,7 +36,7 @@ impl Board {
       logs
    }
 
-   pub fn guess(&self) -> String {
+   pub fn guess(&mut self) -> String {
       match self.is_playable() {
          Some(_x) => {
             self.do_calculation().to_string()
@@ -165,14 +167,14 @@ impl Board {
    }
 
    fn is_playable(&self) -> Option<usize> {
-      self.tiles.iter().position(|&x| x == self.neutral as u32)
+      self.tiles.iter().rposition(|&x| x == self.neutral as u32)
    }
 
    // check every tile
    // count the least step that human need to take if he claim this tile
-   fn do_calculation(&self) -> u32 {
+   fn do_calculation(&mut self) -> u32 {
       let mut minimum_index = self.is_playable().unwrap() as u32;
-      let mut minimum_step = self.is_playable().unwrap() as u32;
+      self.minimum_step = self.is_playable().unwrap() as u32;
       for i in 0..self.get_size() {
          //log(&i.to_string());
          for j in 0..self.get_size() {
@@ -180,15 +182,15 @@ impl Board {
             //check the number of step that human need to claim this row
             //log(&format!("{},{}", i, j));
             if let Some(x) = self.horizontal(i) {
-               if x < minimum_step {
-                  minimum_step = x;
+               if x < self.minimum_step {
+                  self.minimum_step = x;
                   minimum_index = i * self.get_size() + j * self.get_size();
                }
             }
             //check the number of step that human need to claim this column
             if let Some(x) = self.vertical((i as f64 / self.get_size() as f64).ceil() as u32) {
-               if x < minimum_step {
-                  minimum_step = x;
+               if x < self.minimum_step {
+                  self.minimum_step = x;
                   minimum_index = i * self.get_size() + j * self.get_size();
                }
             }
@@ -196,12 +198,13 @@ impl Board {
             //check the number of step that human need to claim this column
             if i == j {
                if let Some(x) = self.diagonal() {
-                  if x < minimum_step {
-                     minimum_step = x;
+                  if x < self.minimum_step {
+                     self.minimum_step = x;
                      minimum_index = i * self.get_size() + j * self.get_size();
                   }
                }
             }
+            log(&format!("minimum_step => {}", self.minimum_step));
          }
       }
       minimum_index
