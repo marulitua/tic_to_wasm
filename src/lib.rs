@@ -31,13 +31,7 @@ pub fn next_move(board: &str) -> String {
 fn guess(board: &str) -> String {
    let tiles = convert_board(board);
 
-   let mut board = Board {
-      tiles: tiles,
-      human: 1,
-      robot: 2,
-      neutral: 0,
-      minimum_step: 0
-   };
+   let mut board = Board::new(tiles);
 
    log(&board.log());
    let result = board.guess();

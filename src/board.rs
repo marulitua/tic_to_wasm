@@ -1,12 +1,19 @@
 use log;
 
 #[derive(Debug)]
+pub struct Tile {
+   pub index: u32,
+   pub value: u32
+}
+
+#[derive(Debug)]
 pub struct Board {
    pub tiles: Vec<u32>,
    pub human: u8,
    pub robot: u8,
    pub neutral: u8,
-   pub minimum_step: u32
+   pub minimum_step: u32,
+   pub chooseable: Vec<Tile>
 }
 
 impl Board {
@@ -16,7 +23,8 @@ impl Board {
          human: 1,
          robot: 2,
          neutral: 0,
-         minimum_step: 0
+         minimum_step: 0,
+         chooseable: Vec::new()
       }
    }
 
@@ -39,6 +47,7 @@ impl Board {
    pub fn guess(&mut self) -> String {
       match self.is_playable() {
          Some(_x) => {
+            self.get_available();
             self.do_calculation().to_string()
          },
          None => {
@@ -184,6 +193,7 @@ impl Board {
             if let Some(x) = self.horizontal(i) {
                if x < self.minimum_step {
                   self.minimum_step = x;
+                  log(&format!("minum {}", i * self.get_size() + j * self.get_size()));
                   minimum_index = i * self.get_size() + j * self.get_size();
                }
             }
@@ -191,6 +201,7 @@ impl Board {
             if let Some(x) = self.vertical((i as f64 / self.get_size() as f64).ceil() as u32) {
                if x < self.minimum_step {
                   self.minimum_step = x;
+                  log(&format!("minum {}", i * self.get_size() + j * self.get_size()));
                   minimum_index = i * self.get_size() + j * self.get_size();
                }
             }
@@ -200,6 +211,7 @@ impl Board {
                if let Some(x) = self.diagonal() {
                   if x < self.minimum_step {
                      self.minimum_step = x;
+                     log(&format!("minum {}", i * self.get_size() + j * self.get_size()));
                      minimum_index = i * self.get_size() + j * self.get_size();
                   }
                }
@@ -208,5 +220,14 @@ impl Board {
          }
       }
       minimum_index
+   }
+
+   fn get_available(&mut self) {
+      for i in 0..(self.tiles.len()) {
+         if self.tiles[i as usize] == self.neutral as u32 {
+            let tile = Tile { index: i as u32, value: self.get_size() };
+            self.chooseable.push(tile);
+         }
+      }
    }
 }
